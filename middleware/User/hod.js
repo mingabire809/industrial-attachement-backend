@@ -1,7 +1,7 @@
-const Hod = require('../models/User/HOD')
+const Hod = require('../../models/User/HOD')
 const jwt = require('jsonwebtoken')
 const {StatusCodes} = require('http-status-codes')
-const {UnauthenticatedError} = require('../errors')
+const {UnauthenticatedError} = require('../../errors')
 
 const Hodauth = (req, res, next) =>{
     //check header
@@ -17,7 +17,7 @@ const Hodauth = (req, res, next) =>{
         const payload = jwt.verify(token, process.env.JWT_SECRET)
         // attach the user to the job routes
 
-        const hod = Hod.findByEmail(payload.email).select('-password')
+        const hod = Hod.findById(payload.id).select('-password')
         req.user = hod
 
         req.user = {_id:payload._id, fullName:payload.fullName,email:payload.email, role: payload.role}

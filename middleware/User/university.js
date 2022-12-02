@@ -1,7 +1,7 @@
-const University = require('../models/User/HOD')
+const University = require('../../models/User/UniversitySupervisor')
 const jwt = require('jsonwebtoken')
 const {StatusCodes} = require('http-status-codes')
-const {UnauthenticatedError} = require('../errors')
+const {UnauthenticatedError} = require('../../errors')
 
 const Universityauth = (req, res, next) =>{
     //check header

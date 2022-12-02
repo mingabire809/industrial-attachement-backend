@@ -9,6 +9,9 @@ const xss = require('xss-clean')
 //Db
 const connectDB = require('./db/connect')
 const studentAuthentication = require('./middleware/User/student')
+const HODAuthentication = require('./middleware/User/hod')
+const universitySupervisorAuthentication = require('./middleware/User/university')
+const industrySupervisorAuthentication = require('./middleware/User/industry')
 //const userAuthentication = require('./middleware/authentication')
 
 
@@ -20,6 +23,9 @@ const UniversityAuthRouter = require('./routes/Auth/university')
 const IndustryAuthRouter = require('./routes/Auth/industry')
 const AttachmentRouter = require('./routes/attachment')
 const ProjectRouter = require('./routes/project')
+const LogRouter = require('./routes/log')
+const AssessmentRouter = require('./routes/assessment')
+const studentList = require('./routes/studentlist')
 
 // error handler
 const notFoundMiddleware = require('./middleware/not-found');
@@ -43,6 +49,9 @@ app.use('/University-supervisor/auth', UniversityAuthRouter)
 app.use('/Industry-supervisor/auth', IndustryAuthRouter)
 app.use('/attachment', studentAuthentication, AttachmentRouter)
 app.use('/project', studentAuthentication, ProjectRouter)
+app.use('/log', studentAuthentication, LogRouter)
+app.use('/assessment', studentAuthentication, AssessmentRouter)
+app.use('/student-list', HODAuthentication, studentList)
 
 
 

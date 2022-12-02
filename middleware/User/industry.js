@@ -1,7 +1,7 @@
-const Industry = require('../models/User/IndustrySupervisor')
+const Industry = require('../../models/User/IndustrySupervisor')
 const jwt = require('jsonwebtoken')
 const {StatusCodes} = require('http-status-codes')
-const {UnauthenticatedError} = require('../errors')
+const {UnauthenticatedError} = require('../../errors')
 
 const Industryauth = (req, res, next) =>{
     //check header
