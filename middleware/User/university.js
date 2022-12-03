@@ -27,7 +27,7 @@ const Universityauth = (req, res, next) =>{
         }else{
             next()
         }*/
-        
+        next()
     } catch (error) {
         console.log(error)
         throw new UnauthenticatedError('Authentication invalid')

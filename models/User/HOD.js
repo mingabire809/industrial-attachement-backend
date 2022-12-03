@@ -53,7 +53,7 @@ HODSchema.pre('save', async function(next){
 
 HODSchema.methods.createJWT = function () {
     return jwt.sign({
-        _id: this._id, 
+        StaffId: this._id, 
         fullName: this.fullName, 
         email:this.email, 
         role:this.role,

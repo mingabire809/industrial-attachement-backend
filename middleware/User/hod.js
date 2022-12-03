@@ -20,13 +20,14 @@ const Hodauth = (req, res, next) =>{
         const hod = Hod.findById(payload.id).select('-password')
         req.user = hod
 
-        req.user = {_id:payload._id, fullName:payload.fullName,email:payload.email, role: payload.role}
-      /*  if (!req.user.verified){
-            console.log('Not verified')
-            res.status(StatusCodes.UNAUTHORIZED).send('User not verified')
+        req.user = {StaffId:payload.StaffId, fullName:payload.fullName,email:payload.email, role: payload.role}
+        if (req.user.role !=='HOD'){
+            console.log('Not accessible')
+            res.status(StatusCodes.UNAUTHORIZED).send('Ressource not accessible')
         }else{
             next()
-        }*/
+        }
+        
         
     } catch (error) {
         console.log(error)

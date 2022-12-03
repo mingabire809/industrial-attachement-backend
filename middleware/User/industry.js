@@ -17,17 +17,16 @@ const Industryauth = (req, res, next) =>{
         const payload = jwt.verify(token, process.env.JWT_SECRET)
         // attach the user to the job routes
 
-        const industry = Industry.findByEmail(payload.email).select('-password')
+        const industry = Industry.findById(payload.id).select('-password')
         req.user = industry
 
-        req.user = {fullName:payload.fullName,email:payload.email, company: payload.company, role: payload.role}
-      /*  if (!req.user.verified){
-            console.log('Not verified')
-            res.status(StatusCodes.UNAUTHORIZED).send('User not verified')
+        req.user = {_id: payload._id,fullName:payload.fullName,email:payload.email, company: payload.company, role: payload.role, position: payload.position, student: payload.student, phoneNumber: payload.phoneNumber, department: payload.department}
+        if (req.user.role !=='Industry Supervisor'){
+            console.log('Not accessible')
+            res.status(StatusCodes.UNAUTHORIZED).send('Ressource not accessible')
         }else{
             next()
-        }*/
-        
+        }
     } catch (error) {
         console.log(error)
         throw new UnauthenticatedError('Authentication invalid')

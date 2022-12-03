@@ -12,6 +12,7 @@ const nodemailer = require('nodemailer')
 const IndustrySupervisorRegistration = async (req, res) =>{
 
     try{
+        req.body.student = req.params.id
         const industry = await Industry.create({...req.body})
        /* const verificationtoken = await verificationToken.create({
             userId: user._id,
@@ -66,7 +67,7 @@ const login = async (req, res) =>{
         throw new UnauthenticatedError('Invalid credentials')
     }
     const token = industry.createJWT();
-    res.status(StatusCodes.OK).json({ industry:{email: industry.email,fullName: industry.fullName, role: industry.role, dateJoigned: industry.dateJoigned, company: industry.company}, token})
+    res.status(StatusCodes.OK).json({ industry:{_id: industry._id, email: industry.email,fullName: industry.fullName, role: industry.role, position: industry.position, student: industry.student, phoneNumber: industry.phoneNumber, department: industry.department, dateJoigned: industry.dateJoigned, company: industry.company}, token})
     /*if(!user.verified){
         try {
             const verificationtoken = await verificationToken.create({

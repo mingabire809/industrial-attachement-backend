@@ -26,6 +26,7 @@ const ProjectRouter = require('./routes/project')
 const LogRouter = require('./routes/log')
 const AssessmentRouter = require('./routes/assessment')
 const studentList = require('./routes/studentlist')
+const IndustrySupervisorRoleRouter = require('./routes/IndustryRoutes')
 
 // error handler
 const notFoundMiddleware = require('./middleware/not-found');
@@ -52,6 +53,7 @@ app.use('/project', studentAuthentication, ProjectRouter)
 app.use('/log', studentAuthentication, LogRouter)
 app.use('/assessment', studentAuthentication, AssessmentRouter)
 app.use('/student-list', HODAuthentication, studentList)
+app.use('/industry-roles', industrySupervisorAuthentication, IndustrySupervisorRoleRouter)
 
 
 

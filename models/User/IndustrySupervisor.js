@@ -23,6 +23,22 @@ const IndustrySupervisorSchema = new mongoose.Schema({
         default: 'Industry Supervisor'
 
     },
+    position:{
+        type: String,
+        require: true
+    },
+    department:{
+        type: String,
+        require: true
+    },
+    student:{
+        type: String,
+        require: true
+    },
+    phoneNumber:{
+        type: Number,
+        require: true
+    },
     password:{
         type:String,
         required: [true, 'Please provide password'],
@@ -55,6 +71,10 @@ IndustrySupervisorSchema.methods.createJWT = function () {
         email:this.email, 
         fullName: this.fullName, 
         role:this.role,
+        position: this.role,
+        student: this.student,
+        phoneNumber: this.phoneNumber,
+        department: this.department,
         dateJoigned: this.dateJoigned,
         company: this.company, 
        /* verified: this.verified*/},

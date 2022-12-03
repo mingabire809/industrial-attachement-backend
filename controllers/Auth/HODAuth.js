@@ -67,7 +67,7 @@ const login = async (req, res) =>{
         throw new UnauthenticatedError('Invalid credentials')
     }
     const token = HOD.createJWT();
-    res.status(StatusCodes.OK).json({ HOD:{_id: HOD._id, fullName: HOD.fullName, role: HOD.role, dateJoigned: HOD.dateJoigned}, token})
+    res.status(StatusCodes.OK).json({ HOD:{StaffId: HOD.StaffId, fullName: HOD.fullName, role: HOD.role, dateJoigned: HOD.dateJoigned}, token})
     /*if(!user.verified){
         try {
             const verificationtoken = await verificationToken.create({
