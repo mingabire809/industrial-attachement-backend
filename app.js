@@ -36,8 +36,13 @@ const errorHandlerMiddleware = require('./middleware/error-handler');
 
 
 app.get('/',(req, res)=>{
-    res.send('Attachment')
+   // res.send('Attachment')
+    res.redirect('https://attachment-facilitator.netlify.app/')
   })
+
+app.get('/Industry-supervisor/auth/register/19-0508',(req,res)=>{
+  res.redirect('https://attachment-facilitator.netlify.app/')
+})
 
 app.set('trust proxy', 1);
 app.use(express.json());
