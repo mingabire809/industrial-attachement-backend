@@ -2,6 +2,7 @@ const Attachment = require('../models/Attachment')
 const Student = require('../models/User/Student')
 const {StatusCodes} = require('http-status-codes')
 const { NotFoundError } = require('../errors')
+const sendEmail = require('../utils/User/student')
 
 
 
@@ -18,7 +19,8 @@ const createAttachment = async(req,res) =>{
         if (!student){
             throw new NotFoundError(`No student with ID ${req.user.admissionNumber}`)
         }
-        
+        const registrationLink = `http://localhost:3000/Industry-supervisor/auth/register/${req.user.admissionNumber}`
+        await sendEmail(req.body.email, "Attachment", `Here is the link ${registrationLink} to the Attachment facilitator system`)
         res.status(StatusCodes.CREATED).json({attachment})
     } catch(error){
         console.log(error)

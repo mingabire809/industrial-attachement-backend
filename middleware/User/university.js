@@ -17,17 +17,16 @@ const Universityauth = (req, res, next) =>{
         const payload = jwt.verify(token, process.env.JWT_SECRET)
         // attach the user to the job routes
 
-        const university = University.findByEmail(payload.email).select('-password')
+        const university = University.findById(payload.id).select('-password')
         req.user = university
 
         req.user = {_id:payload._id, fullName:payload.fullName,email:payload.email, role: payload.role}
-      /*  if (!req.user.verified){
-            console.log('Not verified')
-            res.status(StatusCodes.UNAUTHORIZED).send('User not verified')
+        if (req.user.role !=='Univesity Supervisor'){
+            console.log('Not accessible')
+            res.status(StatusCodes.UNAUTHORIZED).send('Ressource not accessible')
         }else{
             next()
-        }*/
-        next()
+        }
     } catch (error) {
         console.log(error)
         throw new UnauthenticatedError('Authentication invalid')

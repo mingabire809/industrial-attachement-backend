@@ -15,6 +15,10 @@ const AttachmentSchema = new mongoose.Schema({
         type: String,
         require: [true, 'Please provide the address of the company']
     },
+    email:{
+        type: String,
+        require: true
+    },
     startingDate: {
         type: Date,
         require: [true, 'Please provide a starting date']

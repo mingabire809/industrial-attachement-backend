@@ -1,4 +1,5 @@
 const Industry = require('../../models/User/IndustrySupervisor')
+const Student = require('../../models/User/Student')
 const {StatusCodes} = require('http-status-codes')
 const {BadRequestError, UnauthenticatedError} = require('../../errors')
 const sendEmail = require('../../utils/User/Industry')
@@ -14,6 +15,10 @@ const IndustrySupervisorRegistration = async (req, res) =>{
     try{
         req.body.student = req.params.id
         const industry = await Industry.create({...req.body})
+        const student = await Student.findOneAndUpdate({admissionNumber: req.params.id},{industrialSupervisor: req.body.fullName}, {
+            new: true,
+            runValidators: true
+        } )
        /* const verificationtoken = await verificationToken.create({
             userId: user._id,
             token: crypto.randomBytes(64).toString("hex")

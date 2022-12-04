@@ -1,4 +1,4 @@
-
+const UniversitySupervisor = require('../models/User/UniversitySupervisor')
 const Student = require('../models/User/Student')
 const {StatusCodes} = require('http-status-codes')
 const { NotFoundError } = require('../errors')
@@ -86,4 +86,14 @@ const projectStatus = async(req,res)=>{
     }
 }
 
-module.exports = {getStudent,singleStudent, assignSupervisor, getLogs, getProject, projectStatus}
+const getSupervisor = async(req,res)=>{
+    try {
+        const supervisor = await UniversitySupervisor.find({})
+        const supervisorList = supervisor.map(o => ({ email: o.email, fullName: o.fullName }));
+        res.status(StatusCodes.OK).json({supervisorList})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+module.exports = {getStudent,singleStudent, assignSupervisor, getLogs, getProject, projectStatus, getSupervisor}

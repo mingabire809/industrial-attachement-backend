@@ -6,13 +6,15 @@ const {getStudent,
      assignSupervisor,
     getLogs,
     getProject,
-    projectStatus
+    projectStatus,
+    getSupervisor
     }= require('../controllers/studentList')
 
-router.route('/').get(getStudent)
-router.route('/:id').get(singleStudent).post(assignSupervisor)
+router.route('/student').get(getStudent)
+router.route('/student/:id').get(singleStudent).post(assignSupervisor)
 router.route('/student-logs/:id').get(getLogs)
 
 router.route('/student-project/:id').get(getProject).patch(projectStatus)
+router.route('/supervisors').get(getSupervisor)
 
 module.exports = router;
