@@ -36,8 +36,9 @@ const errorHandlerMiddleware = require('./middleware/error-handler');
 
 
 app.get('/',(req, res)=>{
+  res.sendStatus(200)
    // res.send('Attachment')
-    res.redirect('https://attachment-facilitator.netlify.app/')
+    //res.redirect('https://attachment-facilitator.netlify.app/')
   })
 
 app.get('/Industry-supervisor/auth/register/19-0508',(req,res)=>{
