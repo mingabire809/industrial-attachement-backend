@@ -16,8 +16,9 @@ const createLog = async(req,res) =>{
 
 const getLog = async(req,res)=>{
     try {
+        
         const log = await Log.find({admissionNumber: req.user.admissionNumber})
-        res.status(StatusCodes.OK).json({log})
+        res.status(StatusCodes.OK).json({log, number: log.length})
     } catch (error) {
         console.log(error)
     }

@@ -27,7 +27,7 @@ const createProject = async(req,res) =>{
 
 const getProject = async  (req,res) =>{
     try {
-        const project = await Project.find({admissionNumber: req.user.admissionNumber})
+        const project = await Project.findOne({admissionNumber: req.user.admissionNumber})
         res.status(StatusCodes.OK).json({project})
     } catch (error) {
         console.log(error)

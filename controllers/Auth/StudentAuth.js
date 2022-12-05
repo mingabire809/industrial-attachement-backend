@@ -2,6 +2,10 @@ const Student = require('../../models/User/Student')
 const {StatusCodes} = require('http-status-codes')
 const {BadRequestError, UnauthenticatedError} = require('../../errors')
 const sendEmail = require('../../utils/User/student')
+const Attachment = require('../../models/Attachment')
+const Log = require('../../models/Log')
+const Project = require('../../models/Project')
+const Assessment = require('../../models/Assessment')
 const crypto = require('crypto')
 //const VerficationToken = require('../models/verificationToken')
 const jwt = require('jsonwebtoken')
@@ -89,10 +93,22 @@ const login = async (req, res) =>{
     
 }
 
+const getDetails = async(req,res)=>{
+    try {
+        const student = await Student.findOne({admissionNumber: req.user.admissionNumber})
+        res.status(StatusCodes.OK).json({student})
+    } catch (error) {
+        console.log(error)
+    }
+    
+    
+}
+
 
 
 module.exports = {
     StudentRegistration,
     login,
+    getDetails
    
 }

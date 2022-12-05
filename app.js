@@ -28,6 +28,7 @@ const AssessmentRouter = require('./routes/assessment')
 const studentList = require('./routes/studentlist')
 const IndustrySupervisorRoleRouter = require('./routes/IndustryRoutes')
 const UniversitySupervisorRoleRouter = require('./routes/universityRoutes')
+const studentDetails = require('./routes/student')
 
 // error handler
 const notFoundMiddleware = require('./middleware/not-found');
@@ -62,7 +63,7 @@ app.use('/assessment', studentAuthentication, AssessmentRouter)
 app.use('/student-list', HODAuthentication, studentList)
 app.use('/industry-roles', industrySupervisorAuthentication, IndustrySupervisorRoleRouter)
 app.use('/university-roles', universitySupervisorAuthentication, UniversitySupervisorRoleRouter)
-
+app.use('/student', studentAuthentication, studentDetails)
 
 
 app.use(notFoundMiddleware);
