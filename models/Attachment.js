@@ -6,6 +6,7 @@ const AttachmentSchema = new mongoose.Schema({
     admissionNumber:{
         type: String,
         require: [true, 'Student admission number is required'],
+        unique: true
     },
     place:{
         type: String,

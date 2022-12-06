@@ -29,7 +29,7 @@ const createAttachment = async(req,res) =>{
 
 const getAttachment = async  (req,res) =>{
     try {
-        const attachment = await Attachment.findOne({admissionNumber: req.user.admissionNumber, place: req.user.company})
+        const attachment = await Attachment.findOne({admissionNumber: req.user.admissionNumber})
         res.status(StatusCodes.OK).json({attachment})
     } catch (error) {
         console.log(error)

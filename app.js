@@ -34,13 +34,26 @@ const studentDetails = require('./routes/student')
 const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
 
-
+app.set('view engine', 'ejs')
+app.set('views', './views')
 
 app.get('/',(req, res)=>{
-  res.sendStatus(200)
+  //res.sendStatus(200)
+  res.render('Login', {
+    pageTitle: 'Login'
+  })
    // res.send('Attachment')
     //res.redirect('https://attachment-facilitator.netlify.app/')
   })
+
+  app.get('/admin',(req, res)=>{
+    //res.sendStatus(200)
+    res.render('Admin', {
+      pageTitle: 'Admin'
+    })
+     // res.send('Attachment')
+      //res.redirect('https://attachment-facilitator.netlify.app/')
+    })
 
 app.get('/Industry-supervisor/auth/register/19-0508',(req,res)=>{
   res.redirect('https://attachment-facilitator.netlify.app/')

@@ -18,7 +18,8 @@ const createAssessment = async(req,res) =>{
 
 const getAssessment = async(req,res) =>{
     try {
-        const assessment = await Assessment.find({admissionNumber: req.user.admissionNumber})
+        const title = req.params.id
+        const assessment = await Assessment.findOne({admissionNumber: req.user.admissionNumber, assessment: title})
         res.status(StatusCodes.OK).json({assessment})
     } catch (error) {
         console.log(error)

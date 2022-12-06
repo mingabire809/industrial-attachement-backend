@@ -4,7 +4,8 @@ const jwt = require('jsonwebtoken')
 
 const AssessmentSchema = new mongoose.Schema({
     assessment:{
-        type: String
+        type: String,
+        unique: true
     },
     admissionNumber:{
         type: String,
