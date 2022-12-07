@@ -57,15 +57,18 @@ const login = async (req, res) =>{
         const {admissionNumber, password} = req.body
 
     if(!admissionNumber || !password){
-        throw new BadRequestError('Please provide a valid admission number and a password')
+        res.json('Wrong admission numbe or password')
+        //throw new BadRequestError('Please provide a valid admission number and a password')
     }
     const student = await Student.findOne({admissionNumber})
 
     if (!student){
+        res.json('Invalid credentials')
         throw new UnauthenticatedError('Invalid credentials')
     }
     const isPasswordRight = await student.checkPassword(password)
     if(!isPasswordRight){
+        res.json('Invalid credentials')
         throw new UnauthenticatedError('Invalid credentials')
     }
     const token = student.createJWT();

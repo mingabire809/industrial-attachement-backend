@@ -2,7 +2,9 @@ const Log = require('../models/Log')
 const Student = require('../models/User/Student')
 const PartnerShip = require("../models/Partnership")
 const Project = require('../models/Project')
+const studentAssessment = require('../models/Assessment')
 const AssessmentForm = require('../models/AssessmentForm')
+const Attachment = require('../models/Attachment')
 const {StatusCodes} = require('http-status-codes')
 const { NotFoundError } = require('../errors')
 
@@ -85,6 +87,19 @@ const Assessment = async(req,res)=>{
         console.log(error)
     }
 }
+const studentDetails = async (req,res)=>{
+    try {
+        const student = await Student.findOne({_id:req.user.student})
+        const attachment = await Attachment.findOne({admissionNumber:req.user.student})
+        const firstAssessment = await studentAssessment.findOne({assessment: 'First Assessment', admissionNumber: req.user.student})
+        const secondAssessment = await studentAssessment.findOne({assessment: 'Second Assessment', admissionNumber: req.user.student})
+        const log = await Log.find({admissionNumber: req.user.student})
+
+        res.status(StatusCodes.OK).json({student, attachment, firstAssessment, secondAssessment, totalLog: log.length})
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 const getAssessment = async(req,res)=>{
     try {
@@ -95,4 +110,4 @@ const getAssessment = async(req,res)=>{
     }
 }
 
-module.exports = {getLogs, singleLog, commentLog, makePartnership, getPartnership, Assessment, getAssessment}
+module.exports = {getLogs, singleLog, commentLog, makePartnership, getPartnership, Assessment, getAssessment, studentDetails}

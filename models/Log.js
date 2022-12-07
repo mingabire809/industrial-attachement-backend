@@ -35,7 +35,7 @@ const LogSchema = new mongoose.Schema({
         type: String,
         require: [true, 'Work description is required']
     },
-    wednwsdaySkill:{
+    wednesdaySkill:{
         type: String,
         require: [true, 'Skill learnt is required']
     },
