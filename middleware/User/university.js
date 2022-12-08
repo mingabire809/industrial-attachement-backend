@@ -20,7 +20,7 @@ const Universityauth = (req, res, next) =>{
         const university = University.findById(payload.id).select('-password')
         req.user = university
 
-        req.user = {_id:payload._id, fullName:payload.fullName,email:payload.email, role: payload.role}
+        req.user = {StaffId:payload.StaffId, fullName:payload.fullName,email:payload.email, role: payload.role}
         if (req.user.role !=='Univesity Supervisor'){
             console.log('Not accessible')
             res.status(StatusCodes.UNAUTHORIZED).send('Ressource not accessible')

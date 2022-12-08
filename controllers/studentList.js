@@ -4,13 +4,16 @@ const {StatusCodes} = require('http-status-codes')
 const { NotFoundError } = require('../errors')
 const Project = require('../models/Project')
 const Log = require('../models/Log')
+const Partnership = require('../models/Partnership')
 
 
 const getStudent = async (req,res) =>{
     try {
         const student = await Student.find({})
         const StudentList = student.map(o => ({ _id: o._id, fullName: o.fullName, email:o.email, supervisor: o.supervisor, isAttached: o.isAttached, company: o.company, industrialSupervisor: o.industrialSupervisor }));
-        res.status(StatusCodes.OK).json({StudentList})
+        const nonAttached = await Student.find({company: 'none'})
+        const partnership = await Partnership.find({})
+        res.status(StatusCodes.OK).json({StudentList, totalStudent: student.length, attached: student.length - nonAttached.length, partnership, totalPartnership: partnership.length})
     } catch (error) {
         console.log(error)
     }
@@ -20,8 +23,8 @@ const getStudent = async (req,res) =>{
 const singleStudent = async(req,res) =>{
     try {
 
-        const {params:{admissionNumber:admissionNumber}} = req
-        const student = await Student.findOne({admissionNumber: admissionNumber})
+        const admissionNumber = req.params.id
+        const student = await Student.findOne({_id: admissionNumber})
 
         //const StudentList = student.map(({_id, fullName, email, supervisor, isAttached, company, industrialSupervisor }) => ({ _id, fullName, email, supervisor, isAttached, company, industrialSupervisor }));
         res.status(StatusCodes.OK).json({student})
@@ -95,5 +98,7 @@ const getSupervisor = async(req,res)=>{
         console.log(error)
     }
 }
+
+
 
 module.exports = {getStudent,singleStudent, assignSupervisor, getLogs, getProject, projectStatus, getSupervisor}

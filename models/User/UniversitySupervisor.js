@@ -5,9 +5,8 @@ const jwt = require('jsonwebtoken')
 const UniversitySupervisorSchema = new mongoose.Schema({
     _id:{
         type:String,
-        require: [true, 'Please provide your admission number'],
-        
-        
+        require: [true, 'Please provide your staff ID'],
+   
     },
     email:{
         type:String,
@@ -53,7 +52,7 @@ UniversitySupervisorSchema.pre('save', async function(next){
 
 UniversitySupervisorSchema.methods.createJWT = function () {
     return jwt.sign({
-        _id: this._id, 
+        StaffId: this._id, 
         fullName: this.fullName, 
         email:this.email, 
         role:this.role,

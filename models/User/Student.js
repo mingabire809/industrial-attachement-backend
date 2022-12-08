@@ -8,6 +8,7 @@ const StudentSchema = new mongoose.Schema({
         require: [true, 'Please provide your admission number'],
         minlength: 6,
         maxlength: 8,
+        
     },
 
     email:{
