@@ -7,6 +7,7 @@ const Log = require('../models/Log')
 const Partnership = require('../models/Partnership')
 const Attachment = require('../models/Attachment')
 const Assessment = require('../models/Assessment')
+const IndustrialSupervisor = require('../models/User/IndustrySupervisor')
 
 
 const getStudent = async (req,res) =>{
@@ -28,10 +29,11 @@ const singleStudent = async(req,res) =>{
         const admissionNumber = req.params.id
         const student = await Student.findOne({_id: admissionNumber})
         const attachment = await Attachment.findOne({admissionNumber: admissionNumber})
+        const industrialSupervisor = await IndustrialSupervisor.findOne({student: admissionNumber})
         const firstAssessment = await Assessment.findOne({assessment: 'First Assessment', admissionNumber: admissionNumber})
         const secondAssessment = await Assessment.findOne({assessment: 'Second Assessment', admissionNumber: admissionNumber})
         //const StudentList = student.map(({_id, fullName, email, supervisor, isAttached, company, industrialSupervisor }) => ({ _id, fullName, email, supervisor, isAttached, company, industrialSupervisor }));
-        res.status(StatusCodes.OK).json({student, attachment, firstAssessment, secondAssessment})
+        res.status(StatusCodes.OK).json({student, attachment, firstAssessment, secondAssessment, industrialSupervisor})
     } catch (error) {
         console.log(error)
     }

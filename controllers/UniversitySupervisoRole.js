@@ -26,10 +26,11 @@ const getSingleStudentAssigned = async(req,res)=>{
         const industrialSupervisor = await IndustrialSupervisor.findOne({student: studentId})
         const attachment = await Attachment.findOne({admissionNumber: studentId})
         const project = await Project.findOne({admissionNumber: studentId})
-        const assessment = await Assessment.find({admissionNumber: studentId})
+        const firstAssessment = await Assessment.findOne({admissionNumber: studentId, assessment: 'First Assessment'})
+        const secondAssessment = await Assessment.findOne({admissionNumber: studentId, assessment: 'Second Assessment'})
         const log = await Log.find({admissionNumber: studentId})
 
-        res.status(StatusCodes.OK).json({student, attachment, industrialSupervisor, project, assessment, log})
+        res.status(StatusCodes.OK).json({student, attachment, industrialSupervisor, project, firstAssessment, secondAssessment, log})
 
     } catch (error) {
         console.log(error)
