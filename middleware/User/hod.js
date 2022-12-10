@@ -20,7 +20,7 @@ const Hodauth = (req, res, next) =>{
         const hod = Hod.findById(payload.id).select('-password')
         req.user = hod
 
-        req.user = {StaffId:payload.StaffId, fullName:payload.fullName,email:payload.email, role: payload.role}
+        req.user = {StaffId:payload.StaffId, fullName:payload.fullName,email:payload.email, phoneNumber: payload.phoneNumber, role: payload.role, signature: payload.signature}
         if (req.user.role !=='HOD'){
             console.log('Not accessible')
             res.status(StatusCodes.UNAUTHORIZED).send('Ressource not accessible')

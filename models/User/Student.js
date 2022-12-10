@@ -31,13 +31,23 @@ const StudentSchema = new mongoose.Schema({
         default: 'student'
 
     },
+    signature:{
+        public_id:{
+            type:String,
+            required: true
+        },
+        url:{
+            type: String,
+            required: true
+        }
+    },
     password:{
         type:String,
         required: [true, 'Please provide password'],
         minlength: 10,
         maxlength: 250,
     },
-
+    
     dateJoigned:{
         type:Date,
         default:Date.now,
@@ -76,6 +86,7 @@ StudentSchema.methods.createJWT = function () {
         fullName: this.fullName, 
         email:this.email, 
         role:this.role,
+        signature: this.role,
         dateJoigned: this.dateJoigned,
         company: this.company,
         industrialSupervisor: this.industrialSupervisor,

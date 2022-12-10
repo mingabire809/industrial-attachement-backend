@@ -20,7 +20,7 @@ const Studentauth = (req, res, next) =>{
         const student = Student.findById(payload.id).select('-password')
         req.user = student
 
-        req.user = { admissionNumber: payload.admissionNumber, fullName:payload.fullName,email:payload.email, isAttached: payload.isAttached, role: payload.role, company: payload.company, supervisor: payload.supervisor, industrialSupervisor: payload.industrialSupervisor}
+        req.user = { admissionNumber: payload.admissionNumber, fullName:payload.fullName,email:payload.email, isAttached: payload.isAttached, role: payload.role, signature: payload.signature,company: payload.company, supervisor: payload.supervisor, industrialSupervisor: payload.industrialSupervisor}
       /*  if (!req.user.verified){
             console.log('Not verified')
             res.status(StatusCodes.UNAUTHORIZED).send('User not verified')
