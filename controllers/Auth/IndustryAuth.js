@@ -3,6 +3,7 @@ const Student = require('../../models/User/Student')
 const {StatusCodes} = require('http-status-codes')
 const {BadRequestError, UnauthenticatedError} = require('../../errors')
 const sendEmail = require('../../utils/User/Industry')
+const cloudinary = require('../../utils/cloudinary')
 const crypto = require('crypto')
 //const VerficationToken = require('../models/verificationToken')
 const jwt = require('jsonwebtoken')
@@ -13,8 +14,17 @@ const nodemailer = require('nodemailer')
 const IndustrySupervisorRegistration = async (req, res) =>{
 
     try{
+        const signature = req.body.signature
+        const result = await cloudinary.uploader.upload(signature,{
+            folder: "signatures",
+            width: 180,
+            crop: 'scale'
+        })
         req.body.student = req.params.id
-        const industry = await Industry.create({...req.body})
+        const industry = await Industry.create({...req.body, signature:{
+            public_id: result.public_id,
+            url: result.secure_url,
+        }})
         const student = await Student.findOneAndUpdate({admissionNumber: req.params.id},{industrialSupervisor: req.body.fullName}, {
             new: true,
             runValidators: true

@@ -39,6 +39,16 @@ const IndustrySupervisorSchema = new mongoose.Schema({
         type: Number,
         require: true
     },
+    signature:{
+        public_id:{
+            type:String,
+            required: true
+        },
+        url:{
+            type: String,
+            required: true
+        }
+    },
     password:{
         type:String,
         required: [true, 'Please provide password'],
@@ -74,6 +84,7 @@ IndustrySupervisorSchema.methods.createJWT = function () {
         position: this.role,
         student: this.student,
         phoneNumber: this.phoneNumber,
+        signature: this.signature,
         department: this.department,
         dateJoigned: this.dateJoigned,
         company: this.company, 

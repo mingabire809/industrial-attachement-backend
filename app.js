@@ -12,12 +12,14 @@ const studentAuthentication = require('./middleware/User/student')
 const HODAuthentication = require('./middleware/User/hod')
 const universitySupervisorAuthentication = require('./middleware/User/university')
 const industrySupervisorAuthentication = require('./middleware/User/industry')
+const AdminAuthentication = require('./middleware/User/admin')
 //const userAuthentication = require('./middleware/authentication')
 
 
 
 //routers
 const StudentAuthRouter = require('./routes/Auth/student')
+const AdminLogin = require('./routes/Auth/adminAuth')
 const HODAuthRouter = require('./routes/Auth/hod')
 const UniversityAuthRouter = require('./routes/Auth/university')
 const IndustryAuthRouter = require('./routes/Auth/industry')
@@ -29,6 +31,7 @@ const studentList = require('./routes/studentlist')
 const IndustrySupervisorRoleRouter = require('./routes/IndustryRoutes')
 const UniversitySupervisorRoleRouter = require('./routes/universityRoutes')
 const studentDetails = require('./routes/student')
+const adminRouter = require('./routes/adminRoute')
 
 // error handler
 const notFoundMiddleware = require('./middleware/not-found');
@@ -55,8 +58,8 @@ app.get('/',(req, res)=>{
       //res.redirect('https://attachment-facilitator.netlify.app/')
     })
 
-app.get('/Industry-supervisor/auth/register/19-0508',(req,res)=>{
-  res.redirect('https://attachment-facilitator.netlify.app/')
+app.get('/Industry-supervisor/auth/register/:id',(req,res)=>{
+  res.render('IndustrialRegistration', {id:req.params.id})
 })
 
 app.set('trust proxy', 1);
@@ -77,6 +80,8 @@ app.use('/student-list', HODAuthentication, studentList)
 app.use('/industry-roles', industrySupervisorAuthentication, IndustrySupervisorRoleRouter)
 app.use('/university-roles', universitySupervisorAuthentication, UniversitySupervisorRoleRouter)
 app.use('/student', studentAuthentication, studentDetails)
+app.use('/admin-route', AdminAuthentication, adminRouter)
+app.use('/admin', AdminLogin)
 
 
 app.use(notFoundMiddleware);

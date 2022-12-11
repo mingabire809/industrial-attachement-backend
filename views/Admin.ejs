@@ -1,24 +1,916 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> <%=pageTitle %> </title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-</head>
+    <head>
+        <meta charset="utf-8">
+        <title>Admin</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+      </head>
+<style>
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500');
+*{
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  text-decoration: none;
+}
+body {
+  font-family: 'Roboto', sans-serif;
+}
+.sidebar {
+  position: fixed;
+  left: -300px;
+  width: 300px;
+  height: 100%;
+  background: #042331;
+  transition: all .5s ease;
+  top: 0;
+}
+.sidebar header {
+  font-size: 22px;
+  color: white;
+  line-height: 70px;
+  text-align: center;
+  background: #063146;
+  user-select: none;
+}
+.sidebar ul a{
+  display: block;
+  height: 100%;
+  width: 100%;
+  line-height: 65px;
+  font-size: 20px;
+  color: white;
+  padding-left: 40px;
+  box-sizing: border-box;
+  border-bottom: 1px solid black;
+  border-top: 1px solid rgba(255,255,255,.1);
+  transition: .4s;
+  text-decoration: none;
+}
+ul li:hover a{
+  padding-left: 50px;
+}
+.sidebar ul a i{
+  margin-right: 16px;
+}
+#check{
+  display: none;
+}
+label #btn,label #cancel{
+  position: absolute;
+  background: #042331;
+  border-radius: 3px;
+  cursor: pointer;
+}
+label #btn{
+  left: 40px;
+  top: 25px;
+  font-size: 35px;
+  color: white;
+  padding: 6px 12px;
+  transition: all .5s;
+}
+label #cancel{
+  z-index: 1111;
+  left: -195px;
+  top: 17px;
+  font-size: 30px;
+  color: #0a5275;
+  padding: 4px 9px;
+  transition: all .5s ease;
+}
+#check:checked ~ .sidebar{
+  left: 0;
+}
+#check:checked ~ label #btn{
+  left: 250px;
+  opacity: 0;
+  pointer-events: none;
+}
+#check:checked ~ label #cancel{
+  left: 195px;
+}
+#check:checked ~ section{
+  margin-left: 310px;
+}
+section{
+  background: url(bg.jpeg) no-repeat;
+  background-position: center;
+  background-size: cover;
+  min-height: 96vh;
+  transition: all .5s;
+  
+}
+
+section {
+  display: none;
+}
+
+section:target {
+  display: block;
+}
+
+table{
+	width:  1000px;
+	margin: 30px auto;
+}
+
+table th{
+	padding: 10px 0;
+	background-color: #f4f4f4;
+	/* background-color: #fff; */
+	border:  thin solid #d4d4d4;
+    text-align: center;
+}
+
+table td{
+	padding: 10px;
+	border:  thin solid #d4d4d4;
+	width: 18%;
+	text-align: center;
+	background-color: #fff;
+}
+
+table img{
+	width:  70%;
+}
+
+
+table a{
+	text-decoration: none;
+	color: darkred;
+	background-color: #ffecef;
+	padding: 10px 15px;
+}
+table a:active{
+	background-color: #ccf4d6;
+	color:  green;
+}
+
+table select{
+	padding: 10px;
+	width:  200px;
+	font-size: 16px;
+	border: thin solid #d4d4d4;
+	background-color: transparent;
+}
+table select:focus{
+	outline: none;
+}
+
+table img{
+	width:  60%;
+}
+</style>
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-    <nav class="navbar navbar-dark bg-primary">
-     <img src="https://www.daystar.ac.ke/images/logo.png" style="height: 50px;"/>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        
-          
-          
+    <input type="checkbox" id="check">
+    <label for="check">
+      <i class="fas fa-bars" id="btn"></i>
+      <i class="fas fa-times" id="cancel"></i>
+    </label>
+    <script>
+        const token = localStorage.getItem('token')
+    </script>
+    <div class="sidebar">
+    <header>Admin</header>
+    <ul>
+     <li><a href="#HOD">Head Of Department</a></li>
+     <li><a href="#university">University Supervisor</a></li>
+     <li><a href="#industry">Industry Supervisor</a></li>
+     <li><a href="#students">Students</a></li>
+     <li><a href="#attachment">Attachment</a></li>
+     <li><a href="#assessment">Assessment</a></li>
+     <li><a onclick="logout()" style="color: white; cursor: pointer;">Logout</a></li>
+    
+    </ul>
+    <script>
+        function logout(){
+            localStorage.removeItem('token')
+            window.location.replace("/")
+        }
+    </script>
+   </div>
+   <section id="HOD">
+    <div class="container">
+        <h3>Head of department registration</h3>
+        <form id="hodform">
+
+            <div class="row">
+              <div class="col-md-6 mb-4">
+    
+                <div class="form-outline">
+                  <input type="text" id="fullName" class="form-control form-control-lg" />
+                  <label class="form-label" for="firstName">Full Name</label>
+                </div>
+    
+              </div>
+              <div class="col-md-6 mb-4">
+    
+                <div class="form-outline">
+                  <input type="text" id="_id" class="form-control form-control-lg" />
+                  <label class="form-label" for="lastName">Staff ID</label>
+                </div>
+    
+              </div>
+            </div>
+    
             
-          
+    
+            <div class="row">
+              <div class="col-md-6 mb-4 pb-2">
+    
+                <div class="form-outline">
+                  <input type="email" id="email" class="form-control form-control-lg" />
+                  <label class="form-label" for="emailAddress">Email</label>
+                </div>
+    
+              </div>
+              <div class="col-md-6 mb-4 pb-2">
+    
+                <div class="form-outline">
+                  <input type="number" id="phoneNumber" class="form-control form-control-lg" />
+                  <label class="form-label" for="phoneNumber">Phone Number</label>
+                </div>
+    
+              </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-4 d-flex align-items-center">
+      
+                  <div class="form-outline datepicker w-100">
+                    <input type="file" class="form-control form-control-lg" id="signature" />
+                    <label for="birthdayDate" class="form-label">Signature as an image</label>
+                  </div>
+      
+                </div>
+
+                <div class="col-md-6 mb-4 pb-2">
+    
+                    <div class="form-outline">
+                      <input type="password" id="password" class="form-control form-control-lg" />
+                      <label class="form-label" for="emailAddress">Password</label>
+                    </div>
         
-      </div>
-    </nav>
-</body>
+                  </div>
+                
+              </div>
+    
+            
+    
+            <div class="mt-4 pt-2">
+              <input class="btn btn-primary btn-lg" type="submit" value="Submit" />
+            </div>
+    
+          </form>
+          <script>
+            const hodform = document.getElementById('hodform')
+            var signatures = document.getElementById('signature');
+  let signature;
+  signatures.addEventListener('change', function(e){
+    const file = e.target.files[0]
+    console.log(file)
+    const reader = new FileReader()
+    if (!file) return;
+    reader.readAsDataURL(file)
+    
+    reader.onloadend = ()=>{
+      console.log(reader.result)
+      signature = reader.result
+      console.log(signature)
+      
+    };
+
+    reader.onerror = () => {
+                        console.error('Error');
+                    };
+   // signature = reader.result
+    
+  })
+            hodform.addEventListener('submit', async function(e){
+    e.preventDefault();
+    const _id = document.getElementById('_id').value;
+    const fullName = document.getElementById('fullName').value;
+    const email = document.getElementById('email').value
+    const phoneNumber = document.getElementById('phoneNumber').value
+    const password = document.getElementById('password').value
+    
+
+
+    const payload = new FormData(hodform);
+    const body = JSON.stringify({_id, email, fullName, password,phoneNumber, signature})
+    console.log(body)
+
+    fetch(`http://localhost:3000/admin-route/registration/hod`,{
+      method: 'POST',
+      body: body,
+      headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+    }).then(res=>{
+                if (res.ok){
+                    return res.json()
+                }else{
+                    throw res.json()
+                }
+            }).then(json=> {
+      console.log(json)
+      //location.replace("http://localhost:3001/login")
+    }).catch(err =>{
+      console.log(err)});
+  })
+          </script>
+
+
+</script>
+
+<h3 style="margin-top: 30px;">Head of department</h3>
+<table class="table">
+  <thead>
+  <tr>
+  <th scope="col">Staff ID</th>
+  <th scope="col">Email Address</th>
+  <th scope="col">Full Name</th>
+  <th scope="col">Phone Number</th>
+  
+  
+  </tr>
+  </thead>
+  <tbody id="head">
+      <!-- Prodcuts from gavascript file in here. -->
+  </tbody>
+</table>
+<script>
+  fetch("http://localhost:3000/admin-route/hod", {
+      method: "GET",
+      headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+             }
+  })
+.then(function(response){
+return response.json();
+})
+.then(function(hods){
+
+let hodplaceholder = document.querySelector("#head");
+let hodout = "";
+for(let hod of hods){
+hodout += `
+  <tr>
+      
+      <td>${hod._id}</td>
+      <td>${hod.email}</td>
+      <td>${hod.fullName}</td>
+      <td>${hod.phoneNumber}</td>
+      
+  </tr>
+`;
+}
+
+hodplaceholder.innerHTML = hodout;
+});
+</script>
+
+
+    </div>
+    
+   </section>
+
+   <section id="university">
+    <div class="container">
+        <h3>University supervisor registration</h3>
+        <form id="universityform">
+
+            <div class="row">
+              <div class="col-md-6 mb-4">
+    
+                <div class="form-outline">
+                  <input type="text" id="universityfullName" class="form-control form-control-lg" />
+                  <label class="form-label" for="firstName">Full Name</label>
+                </div>
+    
+              </div>
+              <div class="col-md-6 mb-4">
+    
+                <div class="form-outline">
+                  <input type="text" id="university_id" class="form-control form-control-lg" />
+                  <label class="form-label" for="lastName">Staff ID</label>
+                </div>
+    
+              </div>
+            </div>
+    
+            
+    
+            <div class="row">
+              <div class="col-md-6 mb-4 pb-2">
+    
+                <div class="form-outline">
+                  <input type="email" id="universityemail" class="form-control form-control-lg" />
+                  <label class="form-label" for="emailAddress">Email</label>
+                </div>
+    
+              </div>
+              <div class="col-md-6 mb-4 pb-2">
+    
+                <div class="form-outline">
+                  <input type="number" id="universityphoneNumber" class="form-control form-control-lg" />
+                  <label class="form-label" for="phoneNumber">Phone Number</label>
+                </div>
+    
+              </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-4 d-flex align-items-center">
+      
+                  <div class="form-outline datepicker w-100">
+                    <input type="file" class="form-control form-control-lg" id="universitysignature" />
+                    <label for="birthdayDate" class="form-label">Signature as an image</label>
+                  </div>
+      
+                </div>
+
+                <div class="col-md-6 mb-4 pb-2">
+    
+                    <div class="form-outline">
+                      <input type="password" id="universitypassword" class="form-control form-control-lg" />
+                      <label class="form-label" for="emailAddress">Password</label>
+                    </div>
+        
+                  </div>
+                
+              </div>
+    
+            
+    
+            <div class="mt-4 pt-2">
+              <input class="btn btn-primary btn-lg" type="submit" value="Submit" />
+            </div>
+    
+          </form>
+
+          <script>
+            const universityform = document.getElementById('universityform')
+            var signatures = document.getElementById('universitysignature');
+  let universitysignature;
+  signatures.addEventListener('change', function(e){
+    const file = e.target.files[0]
+    console.log(file)
+    const reader = new FileReader()
+    if (!file) return;
+    reader.readAsDataURL(file)
+    
+    reader.onloadend = ()=>{
+      console.log(reader.result)
+      universitysignature = reader.result
+      console.log(universitysignature)
+      
+    };
+
+    reader.onerror = () => {
+                        console.error('Error');
+                    };
+   // signature = reader.result
+    
+  })
+            universityform.addEventListener('submit', async function(e){
+    e.preventDefault();
+    const _id = document.getElementById('university_id').value;
+    const fullName = document.getElementById('universityfullName').value;
+    const email = document.getElementById('universityemail').value
+    const phoneNumber = document.getElementById('universityphoneNumber').value
+    
+    const password = document.getElementById('universitypassword').value
+    
+
+    const signature = universitysignature
+    const payload = new FormData(universityform);
+    const body = JSON.stringify({_id, email, fullName, password,phoneNumber, signature})
+    console.log(body)
+
+    fetch(`http://localhost:3000/admin-route/registration/universities`,{
+      method: 'POST',
+      body: body,
+      headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+    }).then(res=>{
+                if (res.ok){
+                    return res.json()
+                }else{
+                    throw res.json()
+                }
+            }).then(json=> {
+      console.log(json)
+      //location.replace("http://localhost:3001/login")
+    }).catch(err =>{
+      console.log(err)});
+  })
+          </script>
+
+<h3 style="margin-top: 10px;">University Supervisor list</h3>
+<table class="table">
+  <thead>
+  <tr>
+  <th scope="col">Staff ID</th>
+  <th scope="col">Email Address</th>
+  <th scope="col">Full Name</th>
+  <th scope="col">Phone Number</th>
+  
+  
+  </tr>
+  </thead>
+  <tbody id="universite">
+      <!-- Prodcuts from gavascript file in here. -->
+  </tbody>
+</table>
+<script>
+  fetch("http://localhost:3000/admin-route/universities", {
+      method: "GET",
+      headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+  })
+.then(function(response){
+return response.json();
+})
+.then(function(universities){
+
+let universityplaceholder = document.querySelector("#universite");
+let universityout = "";
+for(let university of universities){
+universityout += `
+  <tr>
+      
+      <td>${university._id}</td>
+      <td>${university.email}</td>
+      <td>${university.fullName}</td>
+      <td>${university.phoneNumber}</td>
+      
+  </tr>
+`;
+}
+
+universityplaceholder.innerHTML = universityout;
+});
+</script>
+</div>
+          
+    </div>
+   </section>
+
+   <section id="industry">
+    <div class="container">
+        <h3 style="margin-top: 10px;">Industrial Supervisor list</h3>
+          <table class="table">
+            <thead>
+            <tr>
+            <th scope="col">Email</th>
+            <th scope="col">Full Name</th>
+            <th scope="col">Position</th>
+            <th scope="col">Department</th>
+            <th scope="col">Phone Number</th>
+            <th scope="col">Company</th>
+            <th scope="col">Student Admission Number</th>
+            
+            </tr>
+            </thead>
+            <tbody id="industri">
+                <!-- Prodcuts from gavascript file in here. -->
+            </tbody>
+        </table>
+        <script>
+            fetch("http://localhost:3000/admin-route/industrial", {
+                method: "GET",
+                headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                }
+            })
+.then(function(response){
+	return response.json();
+})
+.then(function(industries){
+   // console.log(industries)
+	let industryplaceholder = document.querySelector("#industri");
+	let industryout = "";
+	for(let industry of industries){
+		industryout += `
+			<tr>
+				
+				<td>${industry.email}</td>
+				<td>${industry.fullName}</td>
+				<td>${industry.position}</td>
+				<td>${industry.department}</td>
+                <td>${industry.phoneNumber}</td>
+                <td>${industry.company}</td>
+                <td>${industry.student}</td>
+			</tr>
+		`;
+	}
+
+	industryplaceholder.innerHTML = industryout;
+});
+        </script>
+    </div>
+   </section>
+
+   <section id="students">
+    <div class="container">
+        <h3>Student registration</h3>
+        <form id="studentform">
+
+            <div class="row">
+              <div class="col-md-6 mb-4">
+    
+                <div class="form-outline">
+                  <input type="text" id="studentfullName" class="form-control form-control-lg" />
+                  <label class="form-label" for="firstName">Full Name</label>
+                </div>
+    
+              </div>
+              <div class="col-md-6 mb-4">
+    
+                <div class="form-outline">
+                  <input type="text" id="student_id" class="form-control form-control-lg" />
+                  <label class="form-label" for="lastName">Admission Number</label>
+                </div>
+    
+              </div>
+            </div>
+    
+            
+    
+            <div class="row">
+              <div class="col-md-6 mb-4 pb-2">
+    
+                <div class="form-outline">
+                  <input type="email" id="studentemail" class="form-control form-control-lg" />
+                  <label class="form-label" for="emailAddress">Email</label>
+                </div>
+    
+              </div>
+
+              <div class="col-md-6 mb-4 d-flex align-items-center">
+      
+                <div class="form-outline datepicker w-100">
+                  <input type="file" class="form-control form-control-lg" id="studentsignature" />
+                  <label for="birthdayDate" class="form-label">Signature as an image</label>
+                </div>
+    
+              </div>
+             
+            </div>
+
+            <div class="row">
+                
+
+                <div class="col-md-6 mb-4 pb-2">
+    
+                    <div class="form-outline">
+                      <input type="password" id="studentpassword" class="form-control form-control-lg" />
+                      <label class="form-label" for="emailAddress">Password</label>
+                    </div>
+        
+                  </div>
+                
+              </div>
+    
+            
+    
+            <div class="mt-4 pt-2">
+              <input class="btn btn-primary btn-lg" type="submit" value="Submit" />
+            </div>
+    
+          </form>
+
+
+          <script>
+            const studentform = document.getElementById('studentform')
+            var signaturess = document.getElementById('studentsignature');
+  let studentsignature;
+  signaturess.addEventListener('change', function(e){
+    const file = e.target.files[0]
+    console.log(file)
+    const reader = new FileReader()
+    if (!file) return;
+    reader.readAsDataURL(file)
+    
+    reader.onloadend = ()=>{
+      console.log(reader.result)
+      studentsignature = reader.result
+      console.log(studentsignature)
+      
+    };
+
+    reader.onerror = () => {
+                        console.error('Error');
+                    };
+   // signature = reader.result
+    
+  })
+            studentform.addEventListener('submit', async function(e){
+    e.preventDefault();
+    const _id = document.getElementById('student_id').value;
+    const fullName = document.getElementById('studentfullName').value;
+    const email = document.getElementById('studentemail').value
+   // const phoneNumber = document.getElementById('universityphoneNumber').value
+    
+    const password = document.getElementById('studentpassword').value
+    
+
+    const signature = studentsignature
+    const payload = new FormData(studentform);
+    const body = JSON.stringify({_id, email, fullName, password,signature})
+    console.log(body)
+
+    fetch(`http://localhost:3000/student/auth/register`,{
+      method: 'POST',
+      body: body,
+      headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+    }).then(res=>{
+                if (res.ok){
+                    return res.json()
+                }else{
+                    throw res.json()
+                }
+            }).then(json=> {
+      console.log(json)
+      location.reload()
+      //location.replace("http://localhost:3001/login")
+    }).catch(err =>{
+      console.log(err)});
+  })
+          </script>
+
+
+
+          <h3 style="margin-top: 30px;">Student list</h3>
+          <table class="table">
+            <thead>
+            <tr>
+            <th scope="col">Admission Number</th>
+            <th scope="col">Email address</th>
+            <th scope="col">Full Name</th>
+            <th scope="col">Company attached to</th>
+            <th scope="col">University supervisor</th>
+            <th scope="col">Industrial supervisor</th>
+            
+            </tr>
+            </thead>
+            <tbody id="student">
+                <!-- Prodcuts from gavascript file in here. -->
+            </tbody>
+        </table>
+        <script>
+            fetch("http://localhost:3000/admin-route/students", {
+                method: "GET",
+                headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        }
+            })
+.then(function(response){
+	return response.json();
+})
+.then(function(students){
+   // console.log(students)
+	let studentplaceholder = document.querySelector("#student");
+	let studentout = "";
+	for(let student of students){
+		studentout += `
+			<tr>
+				
+				<td>${student._id}</td>
+				<td>${student.email}</td>
+				<td>${student.fullName}</td>
+				<td>${student.company}</td>
+                <td>${student.supervisor}</td>
+                <td>${student.industrialSupervisor}</td>
+			</tr>
+		`;
+	}
+
+	studentplaceholder.innerHTML = studentout;
+});
+        </script>
+    </div>
+   </section>
+
+   <section id="attachment">
+    <div class="container">
+        <h3 style="text-align: center;">Attachment</h3>
+        <table class="table">
+            <thead>
+            <tr>
+            <th scope="col">Admission Number</th>
+            <th scope="col">Place</th>
+            <th scope="col">Address</th>
+            <th scope="col">Starting date</th>
+            <th scope="col">Ending date</th>
+            <th scope="col">Supervisor email</th>
+            
+            </tr>
+            </thead>
+            <tbody id="attachments">
+                <!-- Prodcuts from gavascript file in here. -->
+            </tbody>
+        </table>
+        <script>
+            fetch("http://localhost:3000/admin-route/attachment", {
+                method: "GET",
+                headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        }
+            })
+.then(function(response){
+	return response.json();
+})
+.then(function(attachments){
+	let placeholders = document.querySelector("#attachments");
+	let outs = "";
+	for(let attachment of attachments){
+		outs += `
+			<tr>
+				
+				<td>${attachment.admissionNumber}</td>
+				<td>${attachment.place}</td>
+				<td>${attachment.address}</td>
+				<td>${attachment.startingDate}</td>
+                <td>${attachment.endDate}</td>
+                <td>${attachment.email}</td>
+			</tr>
+		`;
+	}
+
+	placeholders.innerHTML = outs;
+});
+        </script>
+    </div>
+   </section>
+
+   <section id="assessment">
+    <div class="container">
+        <h3 style="text-align: center;">Assessment</h3>
+        <table class="table">
+            <thead>
+            <tr>
+            <th scope="col">Assessment</th>
+            <th scope="col">Student Admission Number</th>
+            <th scope="col">Supervisor</th>
+            <th scope="col">Date</th>
+            
+            </tr>
+            </thead>
+            <tbody id="data-output">
+                <!-- Prodcuts from gavascript file in here. -->
+            </tbody>
+        </table>
+        <script>
+            fetch("http://localhost:3000/admin-route/assessment", {
+                method: "GET",
+                headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        }
+            })
+.then(function(response){
+	return response.json();
+})
+.then(function(assessments){
+	let placeholder = document.querySelector("#data-output");
+	let out = "";
+	for(let assessment of assessments){
+		out += `
+			<tr>
+				
+				<td>${assessment.assessment}</td>
+				<td>${assessment.admissionNumber}</td>
+				<td>${assessment.supervisor}</td>
+				<td>${assessment.date}</td>
+			</tr>
+		`;
+	}
+
+	placeholder.innerHTML = out;
+});
+        </script>
+    </div>
+   </section>
+  </body>
 </html>

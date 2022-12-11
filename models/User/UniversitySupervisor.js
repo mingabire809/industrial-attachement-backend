@@ -23,10 +23,24 @@ const UniversitySupervisorSchema = new mongoose.Schema({
         minlength: 3,
         maxlength: 100,
     },
+    phoneNumber:{
+        type: Number,
+        require: true
+    },
     role:{
         type: String,
         default: 'Univesity Supervisor'
 
+    },
+    signature:{
+        public_id:{
+            type:String,
+            required: true
+        },
+        url:{
+            type: String,
+            required: true
+        }
     },
     password:{
         type:String,
@@ -54,8 +68,10 @@ UniversitySupervisorSchema.methods.createJWT = function () {
     return jwt.sign({
         StaffId: this._id, 
         fullName: this.fullName, 
-        email:this.email, 
+        email:this.email,
+        phoneNumber: this.phoneNumber, 
         role:this.role,
+        signature: this.signature,
         dateJoigned: this.dateJoigned, 
         /*verified: this.verified*/},
         process.env.JWT_SECRET, {expiresIn: process.env.JWT_LIFETIME})

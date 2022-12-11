@@ -2,6 +2,7 @@ const UniversitySupervisor = require('../../models/User/UniversitySupervisor')
 const {StatusCodes} = require('http-status-codes')
 const {BadRequestError, UnauthenticatedError} = require('../../errors')
 const sendEmail = require('../../utils/User/University')
+const cloudinary = require('../../utils/cloudinary')
 const crypto = require('crypto')
 //const VerficationToken = require('../models/verificationToken')
 const jwt = require('jsonwebtoken')
@@ -9,26 +10,6 @@ const nodemailer = require('nodemailer')
 //const verificationToken = require('../models/verificationToken')
 
 
-const UniversityRegistration = async (req, res) =>{
-
-    try{
-        const University = await UniversitySupervisor.create({...req.body})
-       /* const verificationtoken = await verificationToken.create({
-            userId: user._id,
-            token: crypto.randomBytes(64).toString("hex")
-        })*/
-     //   const token = user.createJWT()
-      //  const url = `https://urutonde.herokuapp.com/urutonde/auth/verify/${verificationtoken.token}`
-        await sendEmail(University.email, "Attachment", `Welcome ${University.fullName} to the Attachment facilitator system`)
-        console.log('Success')
-        //res.status(StatusCodes.CREATED).send("verification email sent to your email account, please verify")
-        res.status(StatusCodes.CREATED).json({University})
-    } catch (error) {
-        console.log(error)
-        return res.status(400).send("An error has occured while creating the account");
-        
-    }
-}
 
 
 /*const AccountVerification = async (req, res) =>{
@@ -93,7 +74,7 @@ const login = async (req, res) =>{
 
 
 module.exports = {
-    UniversityRegistration,
+    
     login,
    
 }

@@ -10,36 +10,7 @@ const nodemailer = require('nodemailer')
 //const verificationToken = require('../models/verificationToken')
 
 
-const HODRegistration = async (req, res) =>{
 
-    try{
-        const signature = req.body.signature
-        const result = await cloudinary.uploader.upload(signature,{
-            folder: "signatures",
-            width: 180,
-            crop: 'scale'
-        })
-        const HOD = await hod.create({...req.body, signature:{
-            public_id: result.public_id,
-            url: result.secure_url,
-        }})
-       /* const verificationtoken = await verificationToken.create({
-            userId: user._id,
-            token: crypto.randomBytes(64).toString("hex")
-        })*/
-     //   const token = user.createJWT()
-      //  const url = `https://urutonde.herokuapp.com/urutonde/auth/verify/${verificationtoken.token}`
-        await sendEmail(HOD.email, "Attachment", `Welcome ${HOD.fullName} to the Attachment facilitator system`)
-        console.log('Success')
-        res.status(StatusCodes.CREATED).json({HOD})
-        //res.status(StatusCodes.CREATED).send("verification email sent to your email account, please verify")
-     
-    } catch (error) {
-        console.log(error)
-        return res.status(400).send("An error has occured while creating the account");
-        
-    }
-}
 
 
 /*const AccountVerification = async (req, res) =>{
@@ -104,7 +75,7 @@ const login = async (req, res) =>{
 
 
 module.exports = {
-    HODRegistration,
+    
     login,
    
 }
