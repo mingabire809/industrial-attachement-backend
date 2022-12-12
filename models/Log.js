@@ -66,6 +66,10 @@ const LogSchema = new mongoose.Schema({
         require: [true, 'Comment is required'],
         default: "Not yet commented"
     },
+    signature:{
+        type: String,
+        default: 'Not yet signed'
+    },
     date:{
         type: Date,
         default: new Date(+new Date() + 7*24*60*60*1000)

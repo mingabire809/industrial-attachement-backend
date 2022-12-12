@@ -11,13 +11,7 @@ const createProject = async(req,res) =>{
         req.body.admissionNumber = req.user.admissionNumber
         const project = await Project.create(req.body)
         
-      /*  const student = await Student.findByIdAndUpdate({_id: req.user.admissionNumber}, {company: req.body.place, isAttached: true}, {
-            new: true,
-            runValidators: true
-        })
-        if (!student){
-            throw new NotFoundError(`No student with ID ${req.user.admissionNumber}`)
-        }*/
+      
         
         res.status(StatusCodes.CREATED).json({project})
     } catch(error){
@@ -33,6 +27,8 @@ const getProject = async  (req,res) =>{
         console.log(error)
     }
 }
+
+
 
 
 module.exports = {createProject, getProject}

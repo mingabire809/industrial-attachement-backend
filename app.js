@@ -15,6 +15,7 @@ const industrySupervisorAuthentication = require('./middleware/User/industry')
 const AdminAuthentication = require('./middleware/User/admin')
 //const userAuthentication = require('./middleware/authentication')
 
+const scheduledFunctions = require('./controllers/cronJob')
 
 
 //routers
@@ -99,5 +100,7 @@ const start = async () => {
       console.log(error);
     }
   };
+
+  scheduledFunctions.initScheduledJobs();
   
   start();

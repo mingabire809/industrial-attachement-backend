@@ -37,7 +37,7 @@ const singleLog = async(req,res)=>{
 const commentLog = async(req,res)=>{
     try {
         const {params:{id:weekNumber}} = req
-        const log = await Log.findOneAndUpdate({_id:weekNumber, admissionNumber: req.user.student}, {comment: req.body.comment, date: new Date(+new Date() + 7*24*60*60*1000)}, {
+        const log = await Log.findOneAndUpdate({_id:weekNumber, admissionNumber: req.user.student}, {comment: req.body.comment, signature: req.user.signature.url, date: new Date(+new Date() + 7*24*60*60*1000)}, {
             new: true,
             runValidators: true
         })

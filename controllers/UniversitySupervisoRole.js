@@ -6,6 +6,7 @@ const { NotFoundError } = require('../errors')
 const Project = require('../models/Project')
 const Log = require('../models/Log')
 const Attachment = require('../models/Attachment')
+const AssessmentForm = require('../models/AssessmentForm')
 
 
 const getStudentAssigned = async(req,res)=>{
@@ -29,8 +30,8 @@ const getSingleStudentAssigned = async(req,res)=>{
         const firstAssessment = await Assessment.findOne({admissionNumber: studentId, assessment: 'First Assessment'})
         const secondAssessment = await Assessment.findOne({admissionNumber: studentId, assessment: 'Second Assessment'})
         const log = await Log.find({admissionNumber: studentId})
-
-        res.status(StatusCodes.OK).json({student, attachment, industrialSupervisor, project, firstAssessment, secondAssessment, log})
+        const assessmentForm = await AssessmentForm.findOne({admissionNumber: studentId})
+        res.status(StatusCodes.OK).json({student, attachment, industrialSupervisor, project, firstAssessment, secondAssessment, log, assessmentForm})
 
     } catch (error) {
         console.log(error)
