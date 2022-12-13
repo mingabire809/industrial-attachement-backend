@@ -58,8 +58,6 @@ const IndustrySupervisorSchema = new mongoose.Schema({
     company:{
         type:String,
         required: [true, 'Please provide the name of the company'],
-        minlength: 10,
-        maxlength: 250,
     },
     dateJoigned:{
         type:Date,

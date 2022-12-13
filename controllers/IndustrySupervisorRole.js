@@ -5,6 +5,7 @@ const Project = require('../models/Project')
 const studentAssessment = require('../models/Assessment')
 const AssessmentForm = require('../models/AssessmentForm')
 const Attachment = require('../models/Attachment')
+const UniversitySupervisor = require('../models/User/UniversitySupervisor')
 const {StatusCodes} = require('http-status-codes')
 const { NotFoundError } = require('../errors')
 
@@ -74,13 +75,20 @@ const getPartnership = async(req,res)=>{
 
 const Assessment = async(req,res)=>{
     try {
+        console.log(req.user.signature)
+        const student = await Student.findOne({_id: req.user.student})
+        const university = await UniversitySupervisor.findOne({fullName: student.supervisor})
+    
         req.body.admissionNumber = req.user.student
         req.body.department = req.user.department
         req.body.supervisor = req.user.fullName
         req.body.supervisorEmail = req.user.email
         req.body.supervisorPhoneNumber = req.user.phoneNumber
+        req.body.studentSignature = student.signature.url
+        req.body.signature = req.user.signature.url
+        req.body.universitySignature = university.signature.url
 
-
+        req.body.total = req.body.reporting + req.body.communication + req.body.presentation + req.body.teamWork + req.body.effort + req.body.dependability + req.body.attitude + req.body.problemSolving + req.body.itSkill + req.body.totalPerformance
         const assessment = await AssessmentForm.create(req.body)
         res.status(StatusCodes.CREATED).json({assessment})
     } catch (error) {

@@ -71,7 +71,7 @@ const login = async (req, res) =>{
         res.json('Wrong admission numbe or password')
         //throw new BadRequestError('Please provide a valid admission number and a password')
     }
-    const student = await Student.findOne({admissionNumber})
+    const student = await Student.findById({_id: req.body.admissionNumber})
 
     if (!student){
         res.json('Invalid credentials')
@@ -109,7 +109,7 @@ const login = async (req, res) =>{
 
 const getDetails = async(req,res)=>{
     try {
-        const student = await Student.findOne({admissionNumber: req.user.admissionNumber})
+        const student = await Student.findOne({_id: req.user.admissionNumber})
         const hod = await HOD.findOne({})
         res.status(StatusCodes.OK).json({student, hod})
     } catch (error) {

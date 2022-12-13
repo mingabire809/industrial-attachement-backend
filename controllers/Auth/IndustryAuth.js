@@ -25,7 +25,7 @@ const IndustrySupervisorRegistration = async (req, res) =>{
             public_id: result.public_id,
             url: result.secure_url,
         }})
-        const student = await Student.findOneAndUpdate({admissionNumber: req.params.id},{industrialSupervisor: req.body.fullName}, {
+        const student = await Student.findOneAndUpdate({_id: req.params.id},{industrialSupervisor: req.body.fullName}, {
             new: true,
             runValidators: true
         } )
@@ -38,7 +38,7 @@ const IndustrySupervisorRegistration = async (req, res) =>{
         await sendEmail(industry.email, "Attachment", `Welcome ${industry.fullName} to the Attachment facilitator system`)
         console.log('Success')
         //res.status(StatusCodes.CREATED).send("verification email sent to your email account, please verify")
-        res.status(StatusCodes.CREATED).json({industry})
+        res.status(StatusCodes.CREATED).json({industry, student})
     } catch (error) {
         console.log(error)
         return res.status(400).send("An error has occured while creating the account");

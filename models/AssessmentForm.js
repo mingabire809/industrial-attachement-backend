@@ -68,7 +68,11 @@ const AssessmentFormSchema = new mongoose.Schema({
         require: true
     },
 
-    totalPerfomance:{
+    totalPerformance:{
+        type: Number,
+        require: true
+    },
+    total:{
         type: Number,
         require: true
     },
@@ -92,6 +96,22 @@ const AssessmentFormSchema = new mongoose.Schema({
         type: String,
         require: true
     },
+    date:{
+        type: Date,
+        default: new Date(+new Date() + 7*24*60*60*1000)
+    },
+    signature:{
+        type: String,
+        require: true
+    },
+    studentSignature:{
+        type: String,
+        require: true
+    },
+    universitySignature:{
+        type: String,
+        require: true
+    }
 
 })
 
