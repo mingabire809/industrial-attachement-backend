@@ -23,20 +23,28 @@ const StudentRegistration = async (req, res) =>{
             width: 180,
             crop: 'scale'
         })
-        const student = await Student.create({...req.body, signature:{
-            public_id: result.public_id,
-            url: result.secure_url,
-        }})
-       /* const verificationtoken = await verificationToken.create({
-            userId: user._id,
-            token: crypto.randomBytes(64).toString("hex")
-        })*/
-     //   const token = user.createJWT()
-      //  const url = `https://urutonde.herokuapp.com/urutonde/auth/verify/${verificationtoken.token}`
-        await sendEmail(student.email, "Attachment", `Welcome ${student.fullName} to the Attachment facilitator system`)
-        console.log('Success')
-        //res.status(StatusCodes.CREATED).send("verification email sent to your email account, please verify")
-        res.status(StatusCodes.CREATED).json({student})
+        const studentEmail = await Student.findOne({email: req.body.email})
+        if(studentEmail){
+            
+             res.status(StatusCodes.BAD_REQUEST).json('Email already in use')
+             
+            }else{
+                const student = await Student.create({...req.body, signature:{
+                    public_id: result.public_id,
+                    url: result.secure_url,
+                }})
+               /* const verificationtoken = await verificationToken.create({
+                    userId: user._id,
+                    token: crypto.randomBytes(64).toString("hex")
+                })*/
+             //   const token = user.createJWT()
+              //  const url = `https://urutonde.herokuapp.com/urutonde/auth/verify/${verificationtoken.token}`
+                await sendEmail(student.email, "Attachment", `Welcome ${student.fullName} to the Attachment facilitator system`)
+                console.log('Success')
+                //res.status(StatusCodes.CREATED).send("verification email sent to your email account, please verify")
+                res.status(StatusCodes.CREATED).json({student})
+            }
+       
     } catch (error) {
         console.log(error)
         return res.status(400).send("An error has occured while creating the account");
